@@ -1,0 +1,37 @@
+{
+    "models": {
+        "keyword_extraction_algorithm": {
+            "model_name": "paraphrase-MiniLM-L6-v2",
+            "version": 2.0
+        },
+        "ner_algorithm": {
+            "model_name": "wikineural-multilingual-ner",
+            "version": 1.0
+        },
+        "topic_extraction_algorithm": {
+            "model_name": "xlm-roberta-large-it-mnli",
+            "version": 0.1
+        },
+        "faq_generation_algorithm": {
+            "model_name": "gpt-3.5-turbo",
+            "version": 1.0
+        },
+        "content_proposition_algorithm": {
+            "model_name": "content_proposition_LinksMT-1.0",
+            "version": 1.0
+        },
+        "user_profiling_algorithm": {
+            "model_name": "user_profiling_LinksMT-1.0",
+            "version": 1.0
+        }
+    },
+    "instance_type": "m7i.4xlarge",
+    "link_number": 5,
+    "FAQ_number": 5,
+    "encyclopedic_content": true,
+    "generated_content": true,
+    "FAQ_content": true,
+    "websites_content": true,
+    "reinforcement_mechanism": true,
+    "coherence_evaluation": false
+}

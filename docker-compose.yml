@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # FastAPI application
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: enriched-content-service
+    ports:
+      - "7766:7766"
+    depends_on:
+      - mongo-container
+    restart: always
+    volumes:
+      - /home/ec2-user/nlp-service/config/local_config.json:/app2/config/local_config.json
+      - /home/ec2-user/nlp-service/config/global_config.json:/app2/config/global_config.json
+      - /home/ec2-user/nlp-service/logs:/app2/logs
+    deploy:
+      resources:
+        limits:
+          memory: '60G'
+
+  # MongoDB container
+  mongo-container:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ../mongo-data:/data/db
+      - /home/ec2-user/nlp-service/database/mongod.conf:/app2/database/mongod.conf # Mount the MongoDB configuration file
+    command: ["mongod", "--config", "/app2/database/mongod.conf"] # Specify the configuration file
+    restart: always
+      
+  agnostic-backupper:
+    image: registry.gitlab.com/i75_collabs/darwin/t_2.9_2/darwin:61e06a8b
+    container_name: agnostic-backupper
+    restart: always
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - /home/ec2-user/mongo-data:/app/nlp-service/mongo-data
+      - /home/ec2-user/nlp-service/logs:/app2/logs
+      - /home/ec2-user/nlp-service/backupper/config.toml:/app/config.toml
+
+  nginx_nlp_service:
+    container_name: nginx_nlp_service
+    restart: always
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /home/ec2-user/nlp-service/nginx:/etc/nginx/conf.d
+      # I kept my SSL certs in a certs folder in project directory (Make sure to include this in .gitignore)
+      - /home/ec2-user/nlp-service/certs:/etc/letsencrypt/live/ec2-18-153-35-126.eu-central-1.compute.amazonaws.com

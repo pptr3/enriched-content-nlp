@@ -1,0 +1,30 @@
+{
+    "app_name": "nlp-service",
+    "DataExtractor": {
+        "max_text_len": 1500,
+        "min_text_len": 10,
+        "just_summary": true,
+        "base_wikipedia_url": "https://it.wikipedia.org/w/api.php",
+        "get_request_timeout": 3,
+        "get_request_header": {
+            "content-type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept-Encoding": "'gzip, deflate, br'",
+            "Accept-Language": "en-US,en;q=0.5"
+        }
+    },
+    "wikifier_threshold": 0.8,
+    "NLPAlgorithm_ner_th": 0.8,
+    "NLPAlgorithm": {
+        "max_tokens": 600,
+        "path_models_download": "/app2/app/load_nlp_models/downloads"
+    },
+    "are_text_similar_th": 0.99,
+    "FastText": {
+        "path_full_model": "/app2/app/models/fasttext-it-vectors/model.bin",
+        "path_reduced_model": "/app2/app/models/fasttext-it-vectors/model_100.bin"
+    },
+    "keyword_instead_topic": true,
+    "disk_free_space_percentile_threshold": 0.1
+}
